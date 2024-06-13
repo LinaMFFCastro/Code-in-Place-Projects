@@ -1,20 +1,20 @@
-# Título
-## Sub-título
-Este é o meu primeiro README
+# Title
+## Subtitle
+This is my first README
 
-*italico*
+*italic*
 
-**negrito**
+**bold**
 
-. Elemento 1
+. Element 1
 
-. Elemento 2
+. Element 2
 
-1) Elemento 1
+1) Element 1
 
-2) Elemento 2
+2) Element 2
 
-[Link para o Google](https:\\www.google.com)
+[Link to Google](https:\\www.google.com)
 
-[Link da imagem](https://www.git-scm.com/images/branching-illustration@2x.png)
+[Link to image](https://www.git-scm.com/images/branching-illustration@2x.png)
 
