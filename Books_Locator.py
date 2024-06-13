@@ -92,7 +92,11 @@ def view_books(books):
 
 def find_book_by_title(books):
     title_to_find = input("Enter the title of the book to find: ").strip().lower()
-    found_books = [book for book in books if book['Title'].strip().lower() == title_to_find]
+    search_words = title_to_find.split()
+    
+    found_books = [book for book in books
+                  if any(word in book['Title'].strip().lower() for word in search_words)]
+    
     if not found_books:
         print("No books found with that title.\n")
         return
@@ -114,7 +118,11 @@ def find_book_by_title(books):
 
 def find_book_by_author(books):
     author_to_find = input("Enter the author of the book to find: ").strip().lower()
-    found_books = [book for book in books if book['Author'].strip().lower() == author_to_find]
+    search_words = author_to_find.split()
+    
+    found_books = [book for book in books
+                  if any(word in book['Author'].strip().lower() for word in search_words)]
+    
     if not found_books:
         print("No books found with that author.\n")
         return

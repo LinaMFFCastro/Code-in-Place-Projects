@@ -1,1 +1,26 @@
-[{"Title": "manh\u00e3 submersa", "Author": "Verg\u00edlio Ferreira", "Year": "1954", "ISBN": "972-25-0265-4", "Bookcase": "Room2", "Shelf": "2"}, {"Title": "para sempre", "Author": "Verg\u00edlio Ferreira", "Year": "1983", "ISBN": "972-25-0503-3", "Bookcase": "Room2", "Shelf": "2"}]
+[
+    {
+        "Title": "manhã submersa",
+        "Author": "Vergílio Ferreira",
+        "Year": "1954",
+        "ISBN": "972-25-0265-4",
+        "Bookcase": "Room2",
+        "Shelf": "2"
+    },
+    {
+        "Title": "para sempre",
+        "Author": "Vergílio Ferreira",
+        "Year": "1983",
+        "ISBN": "972-25-0503-3",
+        "Bookcase": "Room2",
+        "Shelf": "2"
+    },
+    {
+        "Title": "crónica dos bons malandros",
+        "Author": "Mário Zambujal",
+        "Year": "1980",
+        "ISBN": "9789897246265",
+        "Bookcase": "room2",
+        "Shelf": "1"
+    }
+]
