@@ -22,9 +22,4 @@ Enhance your program
 Test the program
 Use VS Code and GitHub.
 
-
-You don't need to pre-specify a project as your "final project" until submission. Your final deliverable is the url of a published project, or a link to a github project.
-
-
-
-Your final project is a chance to make any interesting application you would like.
+Step 4: Add features: handling with duplicate titles and delete a book
