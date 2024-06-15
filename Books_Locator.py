@@ -10,8 +10,9 @@ def main():
         print("2. View all books")
         print("3. Find a book by title")
         print("4. Find a book by Author")
-        print("5. Delete a book by index")
-        print("6. Exit")
+        print("5. Update a book by index")
+        print("6. Delete a book by index")
+        print("7. Exit")
 
         choice = input("Enter your choice: ")
         print()
@@ -25,8 +26,10 @@ def main():
         elif choice == '4':
             find_book_by_author(books)
         elif choice == '5':
-            delete_book_by_index(books)
+            update_book_by_index(books)
         elif choice == '6':
+            delete_book_by_index(books)
+        elif choice == '7':
             print("Exiting the program.")
             break
         else:
@@ -161,12 +164,62 @@ def find_book_by_author(books):
         print()
 
     
-    #print("No books found with that author.\n")   
+    #print("No books found with that author.\n")  
+
+def update_book_by_index(books):
+    if not books:
+        print("No books registered.\n")
+        return
+    
+    view_books(books)
+
+    try:
+        index_to_update = int(input("Enter the index of the book to update: "))-1
+        if index_to_update < 0 or index_to_update >= len(books):
+            print("Invalid index.")
+            return
+    except ValueError:
+        print("Invalid input. Please enter a valid number.")
+        return
+    
+    book = books[index_to_update]
+
+    title = input(f"Enter the new book title (or press enter to keep '{book['Title']}'): ")
+    author = input(f"Enter the new book author (or press enter to keep '{book['Author']}'): ")
+    year = input(f"Enter the new book year (or press enter to keep '{book['Year']}'): ")
+    isbn = input(f"Enter the new book ISBN (or press enter to keep '{book['ISBN']}'): ")
+    bookcase = input(f"Enter the new book bookcase (or press enter to keep '{book['Bookcase']}'): ")
+    shelf = input(f"Enter the new book shelf (or press enter to keep '{book['Shelf']}'): ")
+    
+    # Update the selected book
+    if title:
+        book['Title'] = title
+    if author:
+        book['Author'] = author
+    if year:
+        book['Year'] = year
+    if isbn:
+        book['ISBN'] = isbn
+    if bookcase:
+        book['Bookcase'] = bookcase
+    if shelf:
+        book['Shelf'] = shelf
+    
+    save_books(books)
+    print("Book update successfully.\n")
+
+
+
+
+
 
 def delete_book_by_index(books):
     if not books:
         print("No books registered.\n")
         return
+    
+    view_books(books)
+
     try:
         index_to_delete = int(input("Enter the index of the book to delete: "))-1
         if index_to_delete < 0 or index_to_delete >= len(books):

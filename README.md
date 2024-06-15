@@ -22,4 +22,4 @@ Enhance your program
 Test the program
 Use VS Code and GitHub.
 
-Step 4: Add features: handling with duplicate titles and delete a book
+Step 4: Add features: handling with duplicate titles, update a book and delete a book

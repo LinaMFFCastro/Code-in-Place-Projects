@@ -22,5 +22,13 @@
         "ISBN": "9789897246265",
         "Bookcase": "room2",
         "Shelf": "1"
+    },
+    {
+        "Title": "As Veias Abertas da América Latina",
+        "Author": "Eduardo Galeano",
+        "Year": "2017",
+        "ISBN": "978-972-608-293-4",
+        "Bookcase": "room2",
+        "Shelf": "3"
     }
 ]
