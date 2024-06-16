@@ -21,7 +21,6 @@ def save_books(books):
         messagebox.showerror("Error", f"An error occurred while saving the books: {e}")
 
 
-
 class BookManager:
     def __init__(self, root):
         self.books = load_books()
