@@ -20,7 +20,7 @@
         "Author": "Mário Zambujal",
         "Year": "1980",
         "ISBN": "9789897246265",
-        "Bookcase": "room2",
+        "Bookcase": "Room2",
         "Shelf": "1"
     },
     {
@@ -28,7 +28,7 @@
         "Author": "Eduardo Galeano",
         "Year": "2017",
         "ISBN": "978-972-608-293-4",
-        "Bookcase": "room2",
+        "Bookcase": "Room2",
         "Shelf": "3"
     }
 ]
