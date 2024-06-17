@@ -30,5 +30,13 @@
         "ISBN": "978-972-608-293-4",
         "Bookcase": "Room2",
         "Shelf": "3"
+    },
+    {
+        "Title": "Terras do Demo",
+        "Author": "Aquilino Ribeiro",
+        "Year": "1963",
+        "ISBN": "972-25-0216-6",
+        "Bookcase": "Room1",
+        "Shelf": "3"
     }
 ]

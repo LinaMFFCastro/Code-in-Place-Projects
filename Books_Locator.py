@@ -1,9 +1,11 @@
 import json
 import tkinter as tk
 from tkinter import messagebox, simpledialog
+from datetime import datetime
 
 BOOKS_FILE = "books.json"
 
+# To load the books from file
 def load_books():
     try:
         with open(BOOKS_FILE, 'r', encoding='utf-8') as file:
@@ -12,7 +14,7 @@ def load_books():
     except (FileNotFoundError, json.JSONDecodeError):
         return[]
 
-
+# To save books into the file
 def save_books(books):
     try:
         with open(BOOKS_FILE, 'w', encoding='utf-8') as file:
@@ -20,7 +22,12 @@ def save_books(books):
     except IOError as e:
         messagebox.showerror("Error", f"An error occurred while saving the books: {e}")
 
+# To validate the year
+def is_valid_year(year):
+    current_year = datetime.now().year
+    return year.isdigit() and 1000<= int(year) <= current_year
 
+# Class to manage the book
 class BookManager:
     def __init__(self, root):
         self.books = load_books()
@@ -42,20 +49,20 @@ class BookManager:
         self.author_entry.grid(row=1, column=1, padx=5, pady=5)
 
         tk.Label(frame, text="Year").grid(row=2, column=0, padx=5, pady=5)
-        self.year_entry = tk.Entry(frame, width=50)
-        self.year_entry.grid(row=2, column=1, padx=5, pady=5)
+        self.year_entry = tk.Entry(frame, width=10)
+        self.year_entry.grid(row=2, column=1, padx=5, pady=5, sticky="W")
 
         tk.Label(frame, text="ISBN").grid(row=3, column=0, padx=5, pady=5)
-        self.isbn_entry = tk.Entry(frame, width=50)
-        self.isbn_entry.grid(row=3, column=1, padx=5, pady=5)
+        self.isbn_entry = tk.Entry(frame, width=20)
+        self.isbn_entry.grid(row=3, column=1, padx=5, pady=5, sticky="W")
 
         tk.Label(frame, text="Bookcase").grid(row=4, column=0, padx=5, pady=5)
-        self.bookcase_entry = tk.Entry(frame, width=50)
-        self.bookcase_entry.grid(row=4, column=1, padx=5, pady=5)
+        self.bookcase_entry = tk.Entry(frame, width=15)
+        self.bookcase_entry.grid(row=4, column=1, padx=5, pady=5, sticky="W")
 
         tk.Label(frame, text="Shelf").grid(row=5, column=0, padx=5, pady=5)
-        self.shelf_entry = tk.Entry(frame, width=50)
-        self.shelf_entry.grid(row=5, column=1, padx=5, pady=5)
+        self.shelf_entry = tk.Entry(frame, width=10)
+        self.shelf_entry.grid(row=5, column=1, padx=5, pady=5, sticky="W")
 
         self.add_button = tk.Button(frame, text="Add book", command=self.add_book)
         self.add_button.grid(row=7, column=0, padx=5, pady=5)
@@ -78,6 +85,7 @@ class BookManager:
         self.exit_button = tk.Button(frame, text="Exit", command=self.root.quit)
         self.exit_button.grid(row=10, column=0, padx=5, pady=5)
 
+    # To add a book
     def add_book(self):
         title = self.title_entry.get().strip()
 
@@ -94,6 +102,13 @@ class BookManager:
 
         author = self.author_entry.get().strip()
         year = self.year_entry.get().strip()
+
+        # Check the year
+        if not is_valid_year(year):
+            messagebox.showerror("Erro", "Year must be a valid four-digit integer.")
+            return
+
+
         isbn = self.isbn_entry.get().strip()
         bookcase = self.bookcase_entry.get().strip()
         shelf = self.shelf_entry.get().strip()
@@ -117,8 +132,11 @@ class BookManager:
     
    
     
-    
+    # To view the books
     def view_books(self):
+        # Destroy popup before creating a new popup
+        self.popup = None
+
         if not self.books:
             messagebox.showinfo("Information", "No books registered.")
             return
@@ -129,6 +147,7 @@ class BookManager:
         
         self.show_text_in_popup("View all Books", books_str)
 
+    # To find books by a word in the title
     def find_book_by_title(self):
         title_to_find = simpledialog.askstring("Find Books by Title", "Enter the words to search in the book title:").strip().lower()
         if not title_to_find:
@@ -150,7 +169,7 @@ class BookManager:
         
         self.show_text_in_popup("Found Books", books_str)      
 
-
+    # To find books by a word in the author
     def find_book_by_author(self):
         author_to_find = simpledialog.askstring("Find Books by Author", "Enter the words to search in the book author:").strip().lower()
         if not author_to_find:
@@ -172,7 +191,7 @@ class BookManager:
         
         self.show_text_in_popup("Found Books", books_str) 
 
-
+    # To update a book by index
     def update_book_by_index(self):
         if not self.books:
             messagebox.showinfo("Information", "No books registered.")
@@ -194,6 +213,12 @@ class BookManager:
         title = simpledialog.askstring("Update Book", f"Enter the new book title (or press enter to keep '{book['Title']}'): ")
         author = simpledialog.askstring("Update Book", f"Enter the new book author (or press enter to keep '{book['Author']}'): ")
         year = simpledialog.askstring("Update Book", f"Enter the new book year (or press enter to keep '{book['Year']}'): ")
+        
+        # check the year
+        if year and not is_valid_year(year):
+            messagebox.showerror("Erro", "Year must be a valid four-digit integer.")
+            return        
+        
         isbn = simpledialog.askstring("Update Book", f"Enter the new book ISBN (or press enter to keep '{book['ISBN']}'): ")
         bookcase = simpledialog.askstring("Update Book", f"Enter the new bookcase (or press enter to keep '{book['Bookcase']}'): ")
         shelf = simpledialog.askstring("Update Book", f"Enter the new book shelf (or press enter to keep '{book['Shelf']}'): ")
@@ -216,7 +241,7 @@ class BookManager:
         messagebox.showinfo("Success", "Book updated successfully.")
 
 
-    
+    # To delete a book by index
     def delete_book_by_index(self):
         if not self.books:
             messagebox.showinfo("Information", "No books registered.")
@@ -243,9 +268,9 @@ class BookManager:
         del self.books[index_to_delete]
         save_books(self.books)
         messagebox.showinfo("Success", "Book deleted successfully.")
-        
+  
     
-    
+    # Show text in popup
     def show_text_in_popup(self, title, text):
         popup = tk.Toplevel(self.root)
         popup.title(title)
@@ -257,6 +282,7 @@ class BookManager:
         close_button = tk.Button(popup, text="Close", command=popup.destroy)
         close_button.pack(pady=10)
 
+    # clear entries
     def clear_entries(self):
         self.title_entry.delete(0, tk.END)
         self.author_entry.delete(0, tk.END)
