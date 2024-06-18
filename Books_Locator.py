@@ -33,6 +33,7 @@ class BookManager:
         self.books = load_books()
         self.root = root
         self.root.title("Book Registration")
+        self.popup = None
 
         self.create_widgets()
 
@@ -84,7 +85,7 @@ class BookManager:
 
         self.exit_button = tk.Button(frame, text="Exit", command=self.root.quit)
         self.exit_button.grid(row=10, column=0, padx=5, pady=5)
-
+    
     # To add a book
     def add_book(self):
         title = self.title_entry.get().strip()
@@ -129,14 +130,10 @@ class BookManager:
         save_books(self.books)
         messagebox.showinfo("Success", "Book added successfully.")
         self.clear_entries()
-    
-   
+
     
     # To view the books
     def view_books(self):
-        # Destroy popup before creating a new popup
-        self.popup = None
-
         if not self.books:
             messagebox.showinfo("Information", "No books registered.")
             return
@@ -167,7 +164,7 @@ class BookManager:
         for i, book in enumerate(found_books, 1):
             books_str += f"Book {i}:\n  Title: {book['Title']}\n  Author: {book['Author']}\n  Year: {book['Year']}\n  ISBN: {book['ISBN']}\n Bookcase: {book['Bookcase']}\n Shelf: {book['Shelf']}\n\n"
         
-        self.show_text_in_popup("Found Books", books_str)      
+        self.show_text_in_popup("Found Books", books_str) 
 
     # To find books by a word in the author
     def find_book_by_author(self):
@@ -191,6 +188,7 @@ class BookManager:
         
         self.show_text_in_popup("Found Books", books_str) 
 
+
     # To update a book by index
     def update_book_by_index(self):
         if not self.books:
@@ -210,18 +208,18 @@ class BookManager:
         
         book = self.books[index_to_update]
 
-        title = simpledialog.askstring("Update Book", f"Enter the new book title (or press enter to keep '{book['Title']}'): ")
-        author = simpledialog.askstring("Update Book", f"Enter the new book author (or press enter to keep '{book['Author']}'): ")
-        year = simpledialog.askstring("Update Book", f"Enter the new book year (or press enter to keep '{book['Year']}'): ")
+        title = simpledialog.askstring("Update Book", f"Enter the new book title (or press enter to keep '{book['Title']}'):", initialvalue=book['Title']).strip()
+        author = simpledialog.askstring("Update Book", f"Enter the new book author (or press enter to keep '{book['Author']}'):", initialvalue=book['Author']).strip()
+        year = simpledialog.askstring("Update Book", f"Enter the new book year (or press enter to keep '{book['Year']}'): ", initialvalue=book['Year']).strip()
         
         # check the year
         if year and not is_valid_year(year):
             messagebox.showerror("Erro", "Year must be a valid four-digit integer.")
             return        
         
-        isbn = simpledialog.askstring("Update Book", f"Enter the new book ISBN (or press enter to keep '{book['ISBN']}'): ")
-        bookcase = simpledialog.askstring("Update Book", f"Enter the new bookcase (or press enter to keep '{book['Bookcase']}'): ")
-        shelf = simpledialog.askstring("Update Book", f"Enter the new book shelf (or press enter to keep '{book['Shelf']}'): ")
+        isbn = simpledialog.askstring("Update Book", f"Enter the new book ISBN (or press enter to keep '{book['ISBN']}'): ", initialvalue=book['ISBN']).strip()
+        bookcase = simpledialog.askstring("Update Book", f"Enter the new bookcase (or press enter to keep '{book['Bookcase']}'): ", initialvalue=book['Bookcase']).strip()
+        shelf = simpledialog.askstring("Update Book", f"Enter the new book shelf (or press enter to keep '{book['Shelf']}'): ", initialvalue=book['Bookcase']).strip()
         
         # Update the selected book
         if title:
@@ -239,7 +237,10 @@ class BookManager:
         
         save_books(self.books)
         messagebox.showinfo("Success", "Book updated successfully.")
-
+        
+        if self.popup:
+            self.popup.destroy()
+            self.popup = None        
 
     # To delete a book by index
     def delete_book_by_index(self):
@@ -262,24 +263,34 @@ class BookManager:
         book_title = self.books[index_to_delete]['Title']
         if not messagebox.askyesno("Confirm Deletion", f"Are you sure you want to delete the book '{book_title}'?"):
             print("Book deletion cancelled.\n")
+            if self.popup:
+                self.popup.destroy()
+                self.popup = None
             return
         
         # Delete the selected book
         del self.books[index_to_delete]
         save_books(self.books)
         messagebox.showinfo("Success", "Book deleted successfully.")
-  
+
+        if self.popup:
+            self.popup.destroy()
+            self.popup = None
+
     
     # Show text in popup
     def show_text_in_popup(self, title, text):
-        popup = tk.Toplevel(self.root)
-        popup.title(title)
-        popup.geometry("400x300")
-        text_widget = tk.Text(popup, wrap="word", padx=10, pady=10)
+        self.popup = tk.Toplevel(self.root)
+        self.popup.title(title)
+        self.popup.geometry("400x300")
+        self.popup.transient(self.root)
+        self.popup.grab_set()
+        self.popup.attributes("-topmost", True)
+        text_widget = tk.Text(self.popup, wrap="word", padx=10, pady=10)
         text_widget.insert("1.0", text)
         text_widget.config(state="disable")
         text_widget.pack(expand=True, fill="both")
-        close_button = tk.Button(popup, text="Close", command=popup.destroy)
+        close_button = tk.Button(self.popup, text="Close", command=self.popup.destroy)
         close_button.pack(pady=10)
 
     # clear entries
