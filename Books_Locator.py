@@ -237,7 +237,7 @@ class BookManager:
         
         save_books(self.books)
         messagebox.showinfo("Success", "Book updated successfully.")
-        
+        # Close popup
         if self.popup:
             self.popup.destroy()
             self.popup = None        
@@ -263,6 +263,7 @@ class BookManager:
         book_title = self.books[index_to_delete]['Title']
         if not messagebox.askyesno("Confirm Deletion", f"Are you sure you want to delete the book '{book_title}'?"):
             print("Book deletion cancelled.\n")
+            # Close popup
             if self.popup:
                 self.popup.destroy()
                 self.popup = None
@@ -272,7 +273,7 @@ class BookManager:
         del self.books[index_to_delete]
         save_books(self.books)
         messagebox.showinfo("Success", "Book deleted successfully.")
-
+        # Close popup
         if self.popup:
             self.popup.destroy()
             self.popup = None
